@@ -61,4 +61,32 @@ public class Arbre {
         res += ")";
         return res;
     }
+
+    /**
+     * Génération du code assembleur
+     * @return une châine représentant le code en assembleur
+     */
+    public String generer(){
+        String code = "";
+        switch (symbol) {
+            case "+":
+                code += fg.generer();
+                code += fd.generer();
+                code += "pop ebx\npop eax\nadd eax, ebx\npush eax";
+                break;
+            case "-":
+                code += fg.generer();
+                code += fd.generer();
+                code += "pop ebx\npop eax\nsub eax, ebx\npush eax";
+                break;
+            case ";":
+                code += fg.generer();
+                code += "pop eax\n";
+                code += fd.generer();
+                break;
+            default:
+                break;
+        }
+        return code;
+    }
 }
