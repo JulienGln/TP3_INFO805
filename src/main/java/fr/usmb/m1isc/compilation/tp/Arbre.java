@@ -66,31 +66,43 @@ public class Arbre {
      * Génération du code assembleur
      * @return une châine représentant le code en assembleur
      */
-    public String generer(){
-        String code = "";
+    public String genererCode(){
+        String code = "\t";
         switch (symbol) {
             case "+":
-                code += fg.generer();
-                code += fd.generer();
+                code += fg.genererCode();
+                code += fd.genererCode();
                 code += "pop ebx\npop eax\nadd eax, ebx\npush eax";
                 break;
             case "-":
-                code += fg.generer();
-                code += fd.generer();
+                code += fg.genererCode();
+                code += fd.genererCode();
                 code += "pop ebx\npop eax\nsub eax, ebx\npush eax";
                 break;
             case "=":
-                code += fd.generer();
+                code += fd.genererCode();
                 code += "pop eax\nmov x, eax\npush eax";
                 break;
             case ";":
-                code += fg.generer();
+                code += fg.genererCode();
                 code += "pop eax\n";
-                code += fd.generer();
+                code += fd.genererCode();
                 break;
             default:
                 break;
         }
         return code;
+    }
+
+    /**
+     * Encapsulation du code assembleur dans un fichier Assembleur avec les DATA SEGMENTS etc.
+     */
+    public String generer() {
+        String file = "DATA SEGMENT\n";
+        // génération des variables ...
+        file +=  "DATA ENDS\nCODE SEGMENT\n";
+        // génération du code
+        file += genererCode();
+        return file + "\nCODE ENDS";
     }
 }

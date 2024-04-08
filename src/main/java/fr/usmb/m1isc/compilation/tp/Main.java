@@ -22,7 +22,7 @@ public class Main {
 		String codeAsm = arbre.generer();
 
 		try {
-			PrintWriter out = new PrintWriter("output.asm");
+			PrintWriter out = new PrintWriter("outputAssembleur.asm");
 			out.println(codeAsm);
 			out.close();
 		} catch (FileNotFoundException e) {
