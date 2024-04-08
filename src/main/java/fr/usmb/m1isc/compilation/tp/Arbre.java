@@ -79,13 +79,23 @@ public class Arbre {
                 code += fd.genererCode();
                 code += "pop ebx\npop eax\nsub eax, ebx\npush eax";
                 break;
+            case "*":
+                code += fg.genererCode();
+                code += fd.genererCode();
+                code += "pop ebx\npop eax\nmul eax, ebx\npush eax";
+                break;
+            case "/":
+                code += fg.genererCode();
+                code += fd.genererCode();
+                code += "pop ebx\npop eax\ndiv ebx\npush eax";
+                break;
             case "=":
                 code += fd.genererCode();
                 code += "pop eax\nmov x, eax\npush eax";
                 break;
             case ";":
                 code += fg.genererCode();
-                code += "pop eax\n";
+                // code += "pop eax\n";
                 code += fd.genererCode();
                 break;
             default:

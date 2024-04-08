@@ -29,7 +29,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-		System.out.println("ARBRE FINAL :\n" + arbre.toString());
+		System.out.println("ARBRE FINAL :\n" + arbre);
     }
 
 }

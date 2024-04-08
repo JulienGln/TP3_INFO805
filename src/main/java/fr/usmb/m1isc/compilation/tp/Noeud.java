@@ -12,6 +12,11 @@ public class Noeud extends Arbre {
     }
 
     @Override
+    public String genererCode() {
+        return "mov eax, " + valeur + "\n";
+    }
+
+    @Override
     public String toString() {
         return valeur.toString();
     }
