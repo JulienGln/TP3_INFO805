@@ -69,29 +69,43 @@ public class Arbre {
     public String genererCode(){
         String code = "\t";
         switch (symbol) {
+            // OPERATIONS ARITHMETIQUES
             case "+":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\nadd eax, ebx\npush eax";
+                code += "pop ebx\npop eax\nadd eax, ebx\npush eax\n";
                 break;
             case "-":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\nsub eax, ebx\npush eax";
+                code += "pop ebx\npop eax\nsub eax, ebx\npush eax\n";
                 break;
             case "*":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\nmul eax, ebx\npush eax";
+                code += "pop ebx\npop eax\nmul eax, ebx\npush eax\n";
                 break;
             case "/":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\ndiv ebx\npush eax";
+                code += "pop ebx\npop eax\ndiv ebx\npush eax\n";
                 break;
+            // OPERATEURS DE COMPARAISON
             case "=":
                 code += fd.genererCode();
-                code += "pop eax\nmov x, eax\npush eax";
+                code += "pop eax\nmov x, eax\npush eax\n";
+                break;
+            // AUTRES
+            case "let":
+                // let a = 5; fg = a et fd = 5
+                code += fd.genererCode();
+                code += fg.genererCode();
+                break;
+            case "input":
+                code += "in eax\n";
+                break;
+            case "output":
+                code += "out eax\n";
                 break;
             case ";":
                 code += fg.genererCode();
