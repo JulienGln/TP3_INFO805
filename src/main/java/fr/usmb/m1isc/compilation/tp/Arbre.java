@@ -1,5 +1,8 @@
 package fr.usmb.m1isc.compilation.tp;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Arbre {
     private Arbre fg, fd; // fils gauche droit
     private String symbol; // un opérateur
@@ -91,10 +94,10 @@ public class Arbre {
                 code += "pop ebx\npop eax\ndiv ebx\npush eax\n";
                 break;
             // OPERATEURS DE COMPARAISON
-            case "=":
+            /*case "=":
                 code += fd.genererCode();
                 code += "pop eax\nmov x, eax\npush eax\n";
-                break;
+                break;*/
             // AUTRES
             case "let":
                 // let a = 5; fg = a et fd = 5
@@ -112,8 +115,6 @@ public class Arbre {
                 // code += "pop eax\n";
                 code += fd.genererCode();
                 break;
-            default:
-                break;
         }
         return code;
     }
@@ -122,11 +123,21 @@ public class Arbre {
      * Encapsulation du code assembleur dans un fichier Assembleur avec les DATA SEGMENTS etc.
      */
     public String generer() {
-        String file = "DATA SEGMENT\n";
-        // génération des variables ...
-        file +=  "DATA ENDS\nCODE SEGMENT\n";
+        String code = "DATA SEGMENT\n";
+        // TODO génération des variables ...
+        code +=  "DATA ENDS\nCODE SEGMENT\n";
         // génération du code
-        file += genererCode();
-        return file + "\nCODE ENDS";
+        code += genererCode();
+        code += "\nCODE ENDS";
+
+        try {
+            FileWriter out = new FileWriter("outputAssembleur.asm");
+            out.write(code);
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return code;
     }
 }
