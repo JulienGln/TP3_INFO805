@@ -91,7 +91,7 @@ public class Arbre {
             case "/":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\ndiv ebx\npush eax\n";
+                code += "pop ebx\npop eax\ndiv eax, ebx\npush eax\n";
                 break;
             // OPERATEURS DE COMPARAISON
             /*case "=":
@@ -120,11 +120,28 @@ public class Arbre {
     }
 
     /**
+     * Génération du code asm pour le DATA SEGMENT
+     * @return le code du DATA SEGMENT en chaîne de caractères
+     */
+    public String genererData() {
+        String data = "";
+
+        if (symbol.equals("let"))
+            data += "\t" + fg.toString() + " DD\n";
+        else {
+            if (fg != null) data += fg.genererData();
+            if (fd != null) data += fd.genererData();
+        }
+
+        return data;
+    }
+
+    /**
      * Encapsulation du code assembleur dans un fichier Assembleur avec les DATA SEGMENTS etc.
      */
     public String generer() {
         String code = "DATA SEGMENT\n";
-        // TODO génération des variables ...
+        code += genererData();
         code +=  "DATA ENDS\nCODE SEGMENT\n";
         // génération du code
         code += genererCode();
