@@ -75,23 +75,27 @@ public class Arbre {
             // OPERATIONS ARITHMETIQUES
             case "+":
                 code += fg.genererCode();
+                code += "\tpush eax\n";
                 code += fd.genererCode();
-                code += "\tpop ebx\n\tpop eax\n\tadd eax, ebx\n\tpush eax\n";
+                code += "\tpop ebx\n\tadd eax, ebx\n";
                 break;
             case "-":
                 code += fg.genererCode();
+                code += "\tpush eax\n";
                 code += fd.genererCode();
-                code += "\tpop ebx\n\tpop eax\n\tsub eax, ebx\n\tpush eax\n";
+                code += "\tpop ebx\n\tsub ebx, eax\n\tmov eax, ebx\n";
                 break;
             case "*":
                 code += fg.genererCode();
+                code += "\tpush eax\n";
                 code += fd.genererCode();
-                code += "\tpop ebx\n\tpop eax\n\tmul eax, ebx\n\tpush eax\n";
+                code += "\tpop ebx\n\tmul eax, ebx\n";
                 break;
             case "/":
                 code += fg.genererCode();
+                code += "\tpush eax\n";
                 code += fd.genererCode();
-                code += "\tpop ebx\n\tpop eax\n\tdiv eax, ebx\n\tpush eax\n";
+                code += "\tpop ebx\n\tdiv ebx, eax\n\tmov eax, ebx\n";
                 break;
             // OPERATEURS DE COMPARAISON
             /*case "=":
@@ -102,7 +106,8 @@ public class Arbre {
             case "let":
                 // let a = 5; fg = a et fd = 5
                 code += fd.genererCode();
-                code += fg.genererCode();
+                //code += fg.genererCode();
+                code += "\tmov " + ((Noeud) fg).getValeur() + ", eax\n";
                 break;
             case "input":
                 code += "\tin eax\n";
@@ -112,8 +117,7 @@ public class Arbre {
                 break;
             case ";":
                 code += fg.genererCode();
-                // code += "pop eax\n";
-                code += fd.genererCode();
+                if (fd != null) code += fd.genererCode();
                 break;
         }
         return code;
