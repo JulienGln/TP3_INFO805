@@ -14,6 +14,7 @@ public class Noeud extends Arbre {
     @Override
     public String genererCode() {
         //if (valeur instanceof String) return "\tmov " + valeur + ", eax\n";
+        if (valeur.equals("input")) return "\tin eax\n";
 
         return "\tmov eax, " + valeur + "\n";
     }

@@ -109,10 +109,8 @@ public class Arbre {
                 //code += fg.genererCode();
                 code += "\tmov " + ((Noeud) fg).getValeur() + ", eax\n";
                 break;
-            case "input":
-                code += "\tin eax\n";
-                break;
             case "output":
+                code += fg.genererCode();
                 code += "\tout eax\n";
                 break;
             case ";":
