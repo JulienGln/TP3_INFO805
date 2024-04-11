@@ -2,12 +2,15 @@ package fr.usmb.m1isc.compilation.tp;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Arbre {
     private Arbre fg, fd; // fils gauche droit
     private String symbol; // un opérateur
 
     private static int cpt_COMP = 0; // compteur des opérateurs de comparaison
+    private static int cpt_IF = 0; // compteur de conditions
+    private static int cpt_LOOP = 0; // compteur de boucles
 
     public Arbre(String symbol, Arbre fg, Arbre fd) {
         this.symbol = symbol;
@@ -99,6 +102,12 @@ public class Arbre {
                 code += fd.genererCode();
                 code += "\tpop ebx\n\tdiv ebx, eax\n\tmov eax, ebx\n";
                 break;
+            case "%":
+                code += fd.genererCode();
+                code += "\tpush eax\n";
+                code += fg.genererCode();
+                code += "\tpop ebx\n\tmov ecx, eax\n\tdiv ecx, ebx\n\tmul ecx, ebx\n\tsub eax, ecx\n";
+                break;
             // OPERATEURS DE COMPARAISON
             /*case "=":
                 code += fd.genererCode();
@@ -110,7 +119,7 @@ public class Arbre {
                 code += "\tpush eax\n";
                 code += fd.genererCode();
                 code += "\tpop ebx\n\tsub eax, ebx\n";
-                code += "\tjl faux_lt_" + cpt_COMP + "\n";
+                code += "\tjle faux_lt_" + cpt_COMP + "\n";
                 code += "\tmov eax, 1\n\tjmp sortie_lt_" + cpt_COMP + "\n";
                 code += "faux_lt_" + cpt_COMP + ":\n\tmov eax, 0\n";
                 code += "sortie_lt_" + cpt_COMP + ":\n";
@@ -137,20 +146,19 @@ public class Arbre {
     }
 
     /**
-     * Génération du code asm pour le DATA SEGMENT
-     * @return le code du DATA SEGMENT en chaîne de caractères
+     * Stockage des variables de l'arbre dans un tableau pour générer après le DATA SEGMENT
+     * @param ids une liste de variables (vide au début)
+     * @return la liste des variables complétées et sans doublons
      */
-    public String genererData() {
-        String data = "";
+    public ArrayList<String> genererData(ArrayList<String> ids) {
 
-        if (symbol.equals("let"))
-            data += "\t" + fg.toString() + " DD\n";
+        if (symbol.equals("let") && !ids.contains(fg.toString())) ids.add(fg.toString());
         else {
-            if (fg != null) data += fg.genererData();
-            if (fd != null) data += fd.genererData();
+            if (fg != null) fg.genererData(ids);
+            if (fd != null) fd.genererData(ids);
         }
 
-        return data;
+        return ids;
     }
 
     /**
@@ -158,7 +166,8 @@ public class Arbre {
      */
     public String generer() {
         String code = "DATA SEGMENT\n";
-        code += genererData();
+        ArrayList<String> ids = genererData(new ArrayList<>());
+        for (String id : ids) code += "\t" + id + " DD\n";
         code +=  "DATA ENDS\nCODE SEGMENT\n";
         // génération du code
         code += genererCode();
