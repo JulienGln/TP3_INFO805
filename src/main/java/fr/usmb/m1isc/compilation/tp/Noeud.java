@@ -13,7 +13,7 @@ public class Noeud extends Arbre {
 
     @Override
     public String genererCode() {
-        return "mov eax, " + valeur + "\n";
+        return "\tmov eax, " + valeur + "\n";
     }
 
     @Override

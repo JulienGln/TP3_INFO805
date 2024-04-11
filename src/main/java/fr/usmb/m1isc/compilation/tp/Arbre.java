@@ -70,28 +70,28 @@ public class Arbre {
      * @return une châine représentant le code en assembleur
      */
     public String genererCode(){
-        String code = "\t";
+        String code = "";
         switch (symbol) {
             // OPERATIONS ARITHMETIQUES
             case "+":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\nadd eax, ebx\npush eax\n";
+                code += "\tpop ebx\n\tpop eax\n\tadd eax, ebx\n\tpush eax\n";
                 break;
             case "-":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\nsub eax, ebx\npush eax\n";
+                code += "\tpop ebx\n\tpop eax\n\tsub eax, ebx\n\tpush eax\n";
                 break;
             case "*":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\nmul eax, ebx\npush eax\n";
+                code += "\tpop ebx\n\tpop eax\n\tmul eax, ebx\n\tpush eax\n";
                 break;
             case "/":
                 code += fg.genererCode();
                 code += fd.genererCode();
-                code += "pop ebx\npop eax\ndiv eax, ebx\npush eax\n";
+                code += "\tpop ebx\n\tpop eax\n\tdiv eax, ebx\n\tpush eax\n";
                 break;
             // OPERATEURS DE COMPARAISON
             /*case "=":
@@ -105,10 +105,10 @@ public class Arbre {
                 code += fg.genererCode();
                 break;
             case "input":
-                code += "in eax\n";
+                code += "\tin eax\n";
                 break;
             case "output":
-                code += "out eax\n";
+                code += "\tout eax\n";
                 break;
             case ";":
                 code += fg.genererCode();
@@ -145,7 +145,7 @@ public class Arbre {
         code +=  "DATA ENDS\nCODE SEGMENT\n";
         // génération du code
         code += genererCode();
-        code += "\nCODE ENDS";
+        code += "CODE ENDS";
 
         try {
             FileWriter out = new FileWriter("outputAssembleur.asm");
