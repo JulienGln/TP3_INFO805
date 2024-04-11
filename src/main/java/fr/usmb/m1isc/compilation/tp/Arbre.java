@@ -7,6 +7,8 @@ public class Arbre {
     private Arbre fg, fd; // fils gauche droit
     private String symbol; // un opérateur
 
+    private static int cpt_COMP = 0; // compteur des opérateurs de comparaison
+
     public Arbre(String symbol, Arbre fg, Arbre fd) {
         this.symbol = symbol;
         this.fg = fg;
@@ -102,11 +104,24 @@ public class Arbre {
                 code += fd.genererCode();
                 code += "pop eax\nmov x, eax\npush eax\n";
                 break;*/
+            case "<":
+                cpt_COMP++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
+                code += fd.genererCode();
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjl faux_lt_" + cpt_COMP + "\n";
+                code += "\tmov eax, 1\n\tjmp sortie_lt_" + cpt_COMP + "\n";
+                code += "faux_lt_" + cpt_COMP + ":\n\tmov eax, 0\n";
+                code += "sortie_lt_" + cpt_COMP + ":\n";
+                break;
+            // CONDITIONELLES
+            case "if":
+                break;
             // AUTRES
             case "let":
                 // let a = 5; fg = a et fd = 5
                 code += fd.genererCode();
-                //code += fg.genererCode();
                 code += "\tmov " + ((Noeud) fg).getValeur() + ", eax\n";
                 break;
             case "output":
