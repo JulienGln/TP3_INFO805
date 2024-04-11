@@ -85,10 +85,16 @@ public class Arbre {
                 code += "\tpop ebx\n\tadd eax, ebx\n";
                 break;
             case "-":
-                code += fg.genererCode();
-                code += "\tpush eax\n";
-                code += fd.genererCode();
-                code += "\tpop ebx\n\tsub ebx, eax\n\tmov eax, ebx\n";
+                if (fd == null) {
+                    // MOINS UNAIRE
+                    code += fg.genererCode();
+                    code += "\tmul eax, -1\n";
+                } else {
+                    code += fg.genererCode();
+                    code += "\tpush eax\n";
+                    code += fd.genererCode();
+                    code += "\tpop ebx\n\tsub ebx, eax\n\tmov eax, ebx\n";
+                }
                 break;
             case "*":
                 code += fg.genererCode();
