@@ -23,19 +23,19 @@ import java_cup.runtime.Symbol;
 
 chiffre     = [0-9]
 espace      = \s
-mod         = "%" | "mod"|"MOD"
-let         = "let"|"LET"
-while       = "while" | "WHILE"
-do          = "do" | "DO"
-if          = "if" | "IF"
-then        = "then" | "THEN"
-else        = "else" | "ELSE"
-input       = "input" | "INPUT"
-output      = "output" | "OUTPUT"
-nil         = "nil" | "NIL"
-not         = "not" | "NOT"
-and         = "and" | "AND"
-or          = "or" | "OR"
+mod         = "%" | "mod" | "MOD"
+let         = "let" | "LET" | "soit" | "SOIT"
+while       = "while" | "WHILE" | "boucle" | "BOUCLE"
+do          = "do" | "DO" | "faire" | "FAIRE"
+if          = "if" | "IF" | "si" | "SI"
+then        = "then" | "THEN" | "alors" | "ALORS"
+else        = "else" | "ELSE" | "sinon" | "SINON"
+input       = "input" | "INPUT" | "entree" | "ENTREE"
+output      = "output" | "OUTPUT" | "sortie" | "SORTIE"
+nil         = "nil" | "NIL" | "rien" | "RIEN"
+not         = "not" | "NOT" | "non" | "NON"
+and         = "and" | "AND" | "et" | "ET"
+or          = "or" | "OR" | "ou" | "OU"
 
 // un identifiant commence par une lettre suivit d'un charactere alphanumerique (lettre/chiffre/underscore)
 ident       = [:letter:]\w*
