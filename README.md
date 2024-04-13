@@ -88,6 +88,7 @@
         mem:65532: 1
         mem:65528: 5
       ```
+    - Le résultat dans `eax` est de 1 donc vrai.
 
 ## Instructions qui plantent
 - output
