@@ -11,6 +11,7 @@ public class Arbre {
     private static int cpt_COMP = 0; // compteur des opérateurs de comparaison
     private static int cpt_IF = 0; // compteur de conditions
     private static int cpt_LOOP = 0; // compteur de boucles
+    private static int cpt_BOOL = 0; // compteur pour les booléens
 
     public Arbre(String symbol, Arbre fg, Arbre fd) {
         this.symbol = symbol;
@@ -115,10 +116,17 @@ public class Arbre {
                 code += "\tpop ebx\n\tmov ecx, eax\n\tdiv ecx, ebx\n\tmul ecx, ebx\n\tsub eax, ecx\n";
                 break;
             // OPERATEURS DE COMPARAISON
-            /*case "=":
+            case "=":
+                cpt_COMP++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
                 code += fd.genererCode();
-                code += "pop eax\nmov x, eax\npush eax\n";
-                break;*/
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjnz faux_eq_" + cpt_COMP + "\n";
+                code += "\tmov eax, 1\n\tjmp sortie_eq_" + cpt_COMP + "\n";
+                code += "faux_eq_" + cpt_COMP + ":\n\tmov eax, 0\n";
+                code += "sortie_eq_" + cpt_COMP + ":\n";
+                break;
             case "<":
                 cpt_COMP++;
                 code += fg.genererCode();
@@ -130,8 +138,57 @@ public class Arbre {
                 code += "faux_lt_" + cpt_COMP + ":\n\tmov eax, 0\n";
                 code += "sortie_lt_" + cpt_COMP + ":\n";
                 break;
+            case "<=":
+                cpt_COMP++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
+                code += fd.genererCode();
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjl faux_lte_" + cpt_COMP + "\n";
+                code += "\tmov eax, 1\n\tjmp sortie_lte_" + cpt_COMP + "\n";
+                code += "faux_lte_" + cpt_COMP + ":\n\tmov eax, 0\n";
+                code += "sortie_lte_" + cpt_COMP + ":\n";
+                break;
+            case ">":
+                cpt_COMP++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
+                code += fd.genererCode();
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjg faux_gt_" + cpt_COMP + "\n";
+                code += "\tmov eax, 1\n\tjmp sortie_gt_" + cpt_COMP + "\n";
+                code += "faux_gt_" + cpt_COMP + ":\n\tmov eax, 0\n";
+                code += "sortie_gt_" + cpt_COMP + ":\n";
+                break;
+            case ">=":
+                cpt_COMP++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
+                code += fd.genererCode();
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjge faux_gte_" + cpt_COMP + "\n";
+                code += "\tmov eax, 1\n\tjmp sortie_gte_" + cpt_COMP + "\n";
+                code += "faux_gte_" + cpt_COMP + ":\n\tmov eax, 0\n";
+                code += "sortie_gte_" + cpt_COMP + ":\n";
+                break;
             // CONDITIONELLES
             case "if":
+                cpt_IF++;
+                code += fg.genererCode();
+                code += "\tjz else_if_" + cpt_IF + "\n";
+                code += fd.getFg().genererCode(); //code += fd.genererCode();
+                code += "\tjmp sortie_if_" + cpt_IF + "\n";
+                code += "else_if_" + cpt_IF + ":\n";
+                code += fd.getFd().genererCode(); //code += fd.genererCode();
+                code += "sortie_if_" + cpt_IF + ":\n";
+                break;
+            case "while":
+                cpt_LOOP++;
+                code += "debut_while_" + cpt_LOOP + ":\n";
+                code += fg.genererCode();
+                code += "\tjz sortie_while_" + cpt_LOOP + "\n";
+                code += fd.genererCode();
+                code += "\tjmp debut_while_" + cpt_LOOP + "\nsortie_while_" + cpt_LOOP + ":\n";
                 break;
             // AUTRES
             case "let":
@@ -180,7 +237,7 @@ public class Arbre {
         code += "CODE ENDS";
 
         try {
-            FileWriter out = new FileWriter("outputAssembleur.asm");
+            FileWriter out = new FileWriter("output.asm");
             out.write(code);
             out.close();
         } catch (IOException e) {
