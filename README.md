@@ -127,44 +127,44 @@
     - Le résultat dans `eax` donne 0 donc **faux**.
 - or
   - Exemple avec ```let a = 1; let b = a or 0;.```
-  - ```; (let a 1) (; (let b (or a 0)))```
-  - ```
-    DATA SEGMENT
-      a DD
-      b DD
-    DATA ENDS
-    CODE SEGMENT
-      mov eax, 1
-      mov a, eax
-      mov eax, a
-      push eax
-      mov eax, 0
-      pop ebx
-      sub eax, ebx
-      jnz vrai_or_1
-      mov eax, 0
-      jmp sortie_or_1
-    vrai_or_1:
-      mov eax, 1
-    sortie_or_1:
-      mov b, eax
-    CODE ENDS
-    ```
-  - ```
-    eip: 11 --> mov b, eax
-    reg: eip: 12
-    reg: eax: 1
-    reg: ebx: 1
-    reg: ecx: 0
-    reg: edx: 0
-    reg: ebp: 65536
-    reg: esp: 65528
-    eflags: ZF=0 LT=0
-    mem:65532: 1
-    mem:65528: 1
-    mem:65524: 1
-    ```
-  - Le résultat dans `eax` est de 1 donc **vrai**.
+    - ```; (let a 1) (; (let b (or a 0)))```
+    - ```
+      DATA SEGMENT
+        a DD
+        b DD
+      DATA ENDS
+      CODE SEGMENT
+        mov eax, 1
+        mov a, eax
+        mov eax, a
+        push eax
+        mov eax, 0
+        pop ebx
+        sub eax, ebx
+        jnz vrai_or_1
+        mov eax, 0
+        jmp sortie_or_1
+      vrai_or_1:
+        mov eax, 1
+      sortie_or_1:
+        mov b, eax
+      CODE ENDS
+      ```
+    - ```
+      eip: 11 --> mov b, eax
+      reg: eip: 12
+      reg: eax: 1
+      reg: ebx: 1
+      reg: ecx: 0
+      reg: edx: 0
+      reg: ebp: 65536
+      reg: esp: 65528
+      eflags: ZF=0 LT=0
+      mem:65532: 1
+      mem:65528: 1
+      mem:65524: 1
+      ```
+    - Le résultat dans `eax` est de 1 donc **vrai**.
 
 ## Instructions qui ne marchent pas
 - output (plante)
