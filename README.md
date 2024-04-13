@@ -169,3 +169,5 @@
 ## Instructions qui ne marchent pas
 - output (plante)
 - not (non implémentée)
+- if
+- while
