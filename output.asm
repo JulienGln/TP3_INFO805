@@ -4,14 +4,14 @@ DATA ENDS
 CODE SEGMENT
 	mov eax, 5
 	push eax
-	mov eax, 7
+	mov eax, 5
 	pop ebx
-	cmp ebx, eax
-	jge vrai_ge_1
+	sub eax, ebx
+	jnz vrai_or_1
 	mov eax, 0
-	jmp sortie_ge_1
-vrai_ge_1:
+	jmp sortie_or_1
+vrai_or_1:
 	mov eax, 1
-sortie_ge_1:
+sortie_or_1:
 	mov a, eax
 CODE ENDS

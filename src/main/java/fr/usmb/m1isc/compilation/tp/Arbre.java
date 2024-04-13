@@ -171,6 +171,31 @@ public class Arbre {
                 code += "faux_gte_" + cpt_COMP + ":\n\tmov eax, 0\n";
                 code += "sortie_gte_" + cpt_COMP + ":\n";
                 break;
+            // BOOLEENS
+            case "!":
+                break;
+            case "or":
+                cpt_BOOL++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
+                code += fd.genererCode();
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjnz vrai_or_" + cpt_BOOL + "\n";
+                code += "\tmov eax, 0\n\tjmp sortie_or_" + cpt_BOOL + "\n";
+                code += "vrai_or_" + cpt_BOOL + ":\n\tmov eax, 1\n";
+                code += "sortie_or_" + cpt_BOOL + ":\n";
+                break;
+            case "and":
+                cpt_BOOL++;
+                code += fg.genererCode();
+                code += "\tpush eax\n";
+                code += fd.genererCode();
+                code += "\tpop ebx\n\tsub eax, ebx\n";
+                code += "\tjz vrai_and_" + cpt_BOOL + "\n";
+                code += "\tmov eax, 0\n\tjmp sortie_and_" + cpt_BOOL + "\n";
+                code += "vrai_and_" + cpt_BOOL + ":\n\tmov eax, 1\n";
+                code += "sortie_and_" + cpt_BOOL + ":\n";
+                break;
             // CONDITIONELLES
             case "if":
                 cpt_IF++;
