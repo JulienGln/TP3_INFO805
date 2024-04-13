@@ -1,11 +1,13 @@
 DATA SEGMENT
+	i DD
 	a DD
 DATA ENDS
 CODE SEGMENT
 	mov eax, 5
-	mul eax, -1
+	mov i, eax
+	mov eax, i
 	push eax
-	mov eax, 1
+	mov eax, 5
 	pop ebx
 	add eax, ebx
 	mov a, eax
