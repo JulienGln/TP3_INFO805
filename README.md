@@ -88,7 +88,44 @@
         mem:65532: 1
         mem:65528: 5
       ```
-    - Le résultat dans `eax` est de 1 donc vrai.
+    - Le résultat dans `eax` est de 1 donc **vrai**.
+- and
+  - Exemple avec ```let a = 5 and 7;.```
+    - ```; (let a (and 5 7))```
+    - ```
+      DATA SEGMENT
+        a DD
+      DATA ENDS
+      CODE SEGMENT
+        mov eax, 5
+        push eax
+        mov eax, 7
+        pop ebx
+        sub eax, ebx
+        jz vrai_and_1
+        mov eax, 0
+        jmp sortie_and_1
+        vrai_and_1:
+        mov eax, 1
+        sortie_and_1:
+        mov a, eax
+      CODE ENDS
+      ```
+    - ```
+        eip: 9 --> mov a, eax
+        reg: eip: 10
+        reg: eax: 0
+        reg: ebx: 5
+        reg: ecx: 0
+        reg: edx: 0
+        reg: ebp: 65536
+        reg: esp: 65532
+        eflags: ZF=1 LT=0
+        mem:65532: 0
+        mem:65528: 5
+      ```
+    - Le résultat dans `eax` donne 0 donc **faux**.
 
 ## Instructions qui plantent
 - output
+- not
