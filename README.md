@@ -223,6 +223,7 @@
         mem:65528: 1
         mem:65524: 0
       ```
+    - Le nombre 48 est bien pair (output = 1 donc **vrai**).
 - while
   - Exemple avec le code de l'exercice 2 du fichier de [programmes](programmes.lambada)
     - ```; (let a input) (; (let b input) (; (while (< 0 b) (; (let aux (% a b)) (; (let a b) (let b aux)))) (output a)))```
@@ -288,6 +289,7 @@
         mem:65524: 0
         mem:65520: 0
       ```
+    - Le PGCD de 221 et 782 donne 17.
 
 ## Instructions qui ne marchent pas
 - not (non implémentée)
