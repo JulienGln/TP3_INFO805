@@ -169,61 +169,125 @@
 - if
   - Exemple avec le test de parité du fichier de [programmes](programmes.lambada)
     - ```; (let a input) (; (if (= (% a 2) 0) (then (let b 1) (let b 0))) (output b))```
-  - ```
-    DATA SEGMENT
-      a DD
-      b DD
-    DATA ENDS
-    CODE SEGMENT
-      in eax
-      mov a, eax
-      mov eax, 2
-      push eax
-      mov eax, a
-      pop ebx
-      mov ecx, eax
-      div ecx, ebx
-      mul ecx, ebx
-      sub eax, ecx
-      push eax
-      mov eax, 0
-      pop ebx
-      sub eax, ebx
-      jnz faux_eq_1
-      mov eax, 1
-      jmp sortie_eq_1
-    faux_eq_1:
-      mov eax, 0
-    sortie_eq_1:
-      jz else_if_1
-      mov eax, 1
-      mov b, eax
-      jmp sortie_if_1
-    else_if_1:
-      mov eax, 0
-      mov b, eax
-    sortie_if_1:
-      mov eax, b
-      out eax
-      CODE ENDS
-    ```
-  - ```
-      >48
-      ...
-      >>>>1
-      reg: eip: 26
-      reg: eax: 1
-      reg: ebx: 0
-      reg: ecx: 48
-      reg: edx: 0
-      reg: ebp: 65536
-      reg: esp: 65528
-      eflags: ZF=0 LT=0
-      mem:65532: 48
-      mem:65528: 1
-      mem:65524: 0
-    ```
+    - ```
+      DATA SEGMENT
+        a DD
+        b DD
+      DATA ENDS
+      CODE SEGMENT
+        in eax
+        mov a, eax
+        mov eax, 2
+        push eax
+        mov eax, a
+        pop ebx
+        mov ecx, eax
+        div ecx, ebx
+        mul ecx, ebx
+        sub eax, ecx
+        push eax
+        mov eax, 0
+        pop ebx
+        sub eax, ebx
+        jnz faux_eq_1
+        mov eax, 1
+        jmp sortie_eq_1
+      faux_eq_1:
+        mov eax, 0
+      sortie_eq_1:
+        jz else_if_1
+        mov eax, 1
+        mov b, eax
+        jmp sortie_if_1
+      else_if_1:
+        mov eax, 0
+        mov b, eax
+      sortie_if_1:
+        mov eax, b
+        out eax
+        CODE ENDS
+      ```
+    - ```
+        >48
+        ...
+        >>>>1
+        reg: eip: 26
+        reg: eax: 1
+        reg: ebx: 0
+        reg: ecx: 48
+        reg: edx: 0
+        reg: ebp: 65536
+        reg: esp: 65528
+        eflags: ZF=0 LT=0
+        mem:65532: 48
+        mem:65528: 1
+        mem:65524: 0
+      ```
 - while
+  - Exemple avec le code de l'exercice 2 du fichier de [programmes](programmes.lambada)
+    - ```; (let a input) (; (let b input) (; (while (< 0 b) (; (let aux (% a b)) (; (let a b) (let b aux)))) (output a)))```
+    - ```
+      DATA SEGMENT
+        a DD
+        b DD
+        aux DD
+      DATA ENDS
+      CODE SEGMENT
+        in eax
+        mov a, eax
+        in eax
+        mov b, eax
+      debut_while_1:
+        mov eax, 0
+        push eax
+        mov eax, b
+        pop ebx
+        sub eax, ebx
+        jle faux_lt_1
+        mov eax, 1
+        jmp sortie_lt_1
+      faux_lt_1:
+        mov eax, 0
+      sortie_lt_1:
+        jz sortie_while_1
+        mov eax, b
+        push eax
+        mov eax, a
+        pop ebx
+        mov ecx, eax
+        div ecx, ebx
+        mul ecx, ebx
+        sub eax, ecx
+        mov aux, eax
+        mov eax, b
+        mov a, eax
+        mov eax, aux
+        mov b, eax
+        jmp debut_while_1
+      sortie_while_1:
+        mov eax, a
+        out eax
+      CODE ENDS
+      ```
+    - ```
+        >221
+        ...
+        >782
+        ...
+        >>>>17
+        reg: eip: 30
+        reg: eax: 17
+        reg: ebx: 0
+        reg: ecx: 102
+        reg: edx: 0
+        reg: ebp: 65536
+        reg: esp: 65524
+        eflags: ZF=0 LT=0
+        mem:65532: 17
+        mem:65528: 0
+        mem:65524: 0
+        mem:65520: 0
+      ```
 
 ## Instructions qui ne marchent pas
 - not (non implémentée)
