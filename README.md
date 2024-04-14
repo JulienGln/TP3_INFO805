@@ -4,6 +4,7 @@
 ## Instructions qui marchent bien 
 - let
 - input
+- output
 - opérations arithmétiques
     - Exemple avec ```let a = -9 + 7 * 3 / 2 % 5;.```
       - ```; (let a (+ (- 9) (% (/ (* 7 3) 2) 5)))```
@@ -165,9 +166,8 @@
       mem:65524: 1
       ```
     - Le résultat dans `eax` est de 1 donc **vrai**.
-
-## Instructions qui ne marchent pas
-- output (plante)
-- not (non implémentée)
 - if
 - while
+
+## Instructions qui ne marchent pas
+- not (non implémentée)

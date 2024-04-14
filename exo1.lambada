@@ -1,2 +1,0 @@
-soit prixHt = 200;
-soit prixTtc =  prixHt * 119 / 100 .

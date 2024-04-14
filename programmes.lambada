@@ -1,0 +1,19 @@
+// Exercice 1
+soit prixHt = 200;
+soit prixTtc =  prixHt * 119 / 100 .
+
+// Exercice 2
+let a = input;
+let b = input;
+while (0 < b)
+do (let aux=(a mod b); let a=b; let b=aux );
+output a
+.
+
+// Test de parité
+let a = input;
+if ((a mod 2) = 0)
+then let b = 1
+else let b = 0;
+output b
+.
