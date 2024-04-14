@@ -3,6 +3,8 @@ package fr.usmb.m1isc.compilation.tp;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Arbre {
     private Arbre fg, fd; // fils gauche droit
@@ -234,29 +236,22 @@ public class Arbre {
     }
 
     /**
-     * Stockage des variables de l'arbre dans un tableau pour générer après le DATA SEGMENT
-     * @param ids une liste de variables (vide au début)
-     * @return la liste des variables complétées et sans doublons
+     * Génération du code asm pour le DATA SEGMENT
+     * @param variables l'ensemble de vraiables déjà déclarées dans de précédents appels
+     * @return le code du DATA SEGMENT en chaîne de caractères
      */
-    public ArrayList<String> genererData(ArrayList<String> ids) {
-
-        if (symbol.equals("let") && !ids.contains(fg.toString())) ids.add(fg.toString());
-        else {
-            if (fg != null) fg.genererData(ids);
-            if (fd != null) fd.genererData(ids);
-        }
-
-        return ids;
-    }
-
-    public String genererDataSimple() {
+    public String genererData(Set<String> variables) {
         String data = "";
         if (symbol != null) {
-            if (symbol.equals("let"))
-                data += "\t" + fg.toString() + " DD\n";
-            else {
-                if (fg != null) data += fg.genererDataSimple();
-                if (fd != null) data += fd.genererDataSimple();
+            if (symbol.equals("let")) {
+                String var = fg.toString();
+                if (!variables.contains(var)) {
+                    data += "\t" + var + " DD\n";
+                    variables.add(var);
+                }
+            } else {
+                if (fg != null) data += fg.genererData(variables);
+                if (fd != null) data += fd.genererData(variables);
             }
         }
         return data;
@@ -267,9 +262,7 @@ public class Arbre {
      */
     public String generer() {
         String code = "DATA SEGMENT\n";
-        //ArrayList<String> ids = genererData(new ArrayList<>());
-        //for (String id : ids) code += "\t" + id + " DD\n";
-        code += genererDataSimple();
+        code += genererData(new HashSet<>());
         code +=  "DATA ENDS\nCODE SEGMENT\n";
         // génération du code
         code += genererCode();
