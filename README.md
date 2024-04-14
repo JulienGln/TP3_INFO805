@@ -167,6 +167,62 @@
       ```
     - Le résultat dans `eax` est de 1 donc **vrai**.
 - if
+  - Exemple avec le test de parité du fichier de [programmes](programmes.lambada)
+    - ```; (let a input) (; (if (= (% a 2) 0) (then (let b 1) (let b 0))) (output b))```
+  - ```
+    DATA SEGMENT
+      a DD
+      b DD
+    DATA ENDS
+    CODE SEGMENT
+      in eax
+      mov a, eax
+      mov eax, 2
+      push eax
+      mov eax, a
+      pop ebx
+      mov ecx, eax
+      div ecx, ebx
+      mul ecx, ebx
+      sub eax, ecx
+      push eax
+      mov eax, 0
+      pop ebx
+      sub eax, ebx
+      jnz faux_eq_1
+      mov eax, 1
+      jmp sortie_eq_1
+    faux_eq_1:
+      mov eax, 0
+    sortie_eq_1:
+      jz else_if_1
+      mov eax, 1
+      mov b, eax
+      jmp sortie_if_1
+    else_if_1:
+      mov eax, 0
+      mov b, eax
+    sortie_if_1:
+      mov eax, b
+      out eax
+      CODE ENDS
+    ```
+  - ```
+      >48
+      ...
+      >>>>1
+      reg: eip: 26
+      reg: eax: 1
+      reg: ebx: 0
+      reg: ecx: 48
+      reg: edx: 0
+      reg: ebp: 65536
+      reg: esp: 65528
+      eflags: ZF=0 LT=0
+      mem:65532: 48
+      mem:65528: 1
+      mem:65524: 0
+    ```
 - while
 
 ## Instructions qui ne marchent pas
