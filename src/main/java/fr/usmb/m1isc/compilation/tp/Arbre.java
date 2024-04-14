@@ -249,13 +249,27 @@ public class Arbre {
         return ids;
     }
 
+    public String genererDataSimple() {
+        String data = "";
+        if (symbol != null) {
+            if (symbol.equals("let"))
+                data += "\t" + fg.toString() + " DD\n";
+            else {
+                if (fg != null) data += fg.genererDataSimple();
+                if (fd != null) data += fd.genererDataSimple();
+            }
+        }
+        return data;
+    }
+
     /**
      * Encapsulation du code assembleur dans un fichier Assembleur avec les DATA SEGMENTS etc.
      */
     public String generer() {
         String code = "DATA SEGMENT\n";
-        ArrayList<String> ids = genererData(new ArrayList<>());
-        for (String id : ids) code += "\t" + id + " DD\n";
+        //ArrayList<String> ids = genererData(new ArrayList<>());
+        //for (String id : ids) code += "\t" + id + " DD\n";
+        code += genererDataSimple();
         code +=  "DATA ENDS\nCODE SEGMENT\n";
         // génération du code
         code += genererCode();

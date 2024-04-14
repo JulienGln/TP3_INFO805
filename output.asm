@@ -1,20 +1,43 @@
 DATA SEGMENT
 	a DD
 	b DD
+	aux DD
+	a DD
+	b DD
 DATA ENDS
 CODE SEGMENT
-	mov eax, 1
+	in eax
 	mov a, eax
-	mov eax, a
-	push eax
+	in eax
+	mov b, eax
+debut_while_1:
 	mov eax, 0
+	push eax
+	mov eax, b
 	pop ebx
 	sub eax, ebx
-	jnz vrai_or_1
-	mov eax, 0
-	jmp sortie_or_1
-vrai_or_1:
+	jle faux_lt_1
 	mov eax, 1
-sortie_or_1:
+	jmp sortie_lt_1
+faux_lt_1:
+	mov eax, 0
+sortie_lt_1:
+	jz sortie_while_1
+	mov eax, b
+	push eax
+	mov eax, a
+	pop ebx
+	mov ecx, eax
+	div ecx, ebx
+	mul ecx, ebx
+	sub eax, ecx
+	mov aux, eax
+	mov eax, b
+	mov a, eax
+	mov eax, aux
 	mov b, eax
+	jmp debut_while_1
+sortie_while_1:
+	mov eax, a
+	out eax
 CODE ENDS
