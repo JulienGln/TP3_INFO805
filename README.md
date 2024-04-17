@@ -1,7 +1,15 @@
 # TP Compilation : Génération de code pour un sous ensemble du langage λ-ada.
-### GALERNE Julien
+## GALERNE Julien
 
-## Instructions qui marchent bien 
+Le dépôt contient :
+- l'analyseur syntaxique [cup](./src/main/cup/AnalyseurSyntaxique.cup)
+- l'analyseur lexical [jflex](./src/main/jflex/AnalyseurLexical.jflex)
+  - l'analyseur lexical permet aussi de reconnaître les instructions en français
+- les [classes](./src/main/java/fr/usmb/m1isc/compilation/tp/) de manipulation de l'arbre, à savoir Arbre.java et Noeud.java
+- un fichier contenant 3 [programmes](./programmes.lambada), illustrant les exemples de l'exercice 1 et 2 ainsi qu'un exemple supplémentaire
+- un README pour le compte-rendu, avec des exemples sur les fonctionnalités les plus intéressantes
+  - les exemples indiquent le code λ-ada utilisé, la traduction en arbre abstrait, le code assembleur généré et enfin l'exécution de ce code avec [l'émulateur](vm-0.9.jar) en entrant la commande `java -jar vm-0.9.jar output.asm --debug`
+## Fonctionnalités développées
 - let
 - input
 - output
@@ -290,6 +298,3 @@
         mem:65520: 0
       ```
     - Le PGCD de 221 et 782 donne 17.
-
-## Instructions qui ne marchent pas
-- not (non implémentée)
