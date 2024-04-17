@@ -6,6 +6,9 @@ Le dépôt contient :
 - l'analyseur lexical [jflex](./src/main/jflex/AnalyseurLexical.jflex)
   - l'analyseur lexical permet aussi de reconnaître les instructions en français
 - les [classes](./src/main/java/fr/usmb/m1isc/compilation/tp/) de manipulation de l'arbre, à savoir Arbre.java et Noeud.java
+  - le code assembleur est généré dans la classe [Arbre.java](./src/main/java/fr/usmb/m1isc/compilation/tp/Arbre.java), dans la méthode `generer()`
+  - la méthode `generer()` est appelée lorsque le point est détecté (cf. le fichier [cup](./src/main/cup/AnalyseurSyntaxique.cup))
+  - le fichier assembleur écrit s'intitule `output.asm` et contient le code assembleur correspondant au code écrit par l'utilisateur dans le terminal
 - un fichier contenant 3 [programmes](./programmes.lambada), illustrant les exemples de l'exercice 1 et 2 ainsi qu'un exemple supplémentaire
 - un README pour le compte-rendu, avec des exemples sur les fonctionnalités les plus intéressantes
   - les exemples indiquent le code λ-ada utilisé, la traduction en arbre abstrait, le code assembleur généré et enfin l'exécution de ce code avec [l'émulateur](vm-0.9.jar) en entrant la commande `java -jar vm-0.9.jar output.asm --debug`
